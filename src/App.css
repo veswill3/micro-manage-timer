@@ -1,0 +1,77 @@
+.App {
+  /*text-align: center;*/
+}
+
+.item-list {
+  height: 100%;
+  width: 400px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: -400px;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  color: #818181;
+  /*padding-top: 32px;*/
+}
+
+.item-list.items-showing {
+  left: 0;
+}
+
+.item-list div {
+  padding: 16px;
+}
+
+.item-list table {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.item-list li, .item-list a {
+  /*font-size: large;*/
+  color: #818181;
+  display: block;
+  transition: 0.3s
+}
+
+.item-list span {
+  display: inline-block;
+}
+
+.item-text {
+  float: left;
+  width: 80%;
+}
+
+.item-time {
+  float: right;
+}
+
+.item-editor {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.item-editor textarea {
+  resize: none;
+  width: 90%;
+}
+
+a:hover {
+  color: #f1f1f1;
+}
+
+.up-next {
+  margin-left: 0;
+  transition: margin-left .5s;
+  padding: 16px;
+  text-align: center;
+}
+
+.up-next.items-showing {
+  margin-left: 400px;
+}
