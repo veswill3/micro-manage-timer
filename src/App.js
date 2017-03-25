@@ -5,6 +5,7 @@ import EventEditor from './EventEditor';
 
 function seconds2string(seconds) {
   if (seconds === 0) return 'Now';
+  if (seconds < 0)   return 'Done';
   let min = Math.floor(seconds / 60);
   let sec = seconds - min * 60;
   if (min < 10) min = '0' + min; // padd a zero
@@ -117,16 +118,10 @@ class App extends Component {
   render() {
     const eventList = this.state.events.map((event, i) => {
       let timeRemaining = event.time - this.state.secondsElapsed;
-      let timeText;
-      if (timeRemaining < 0) {
-        timeText = 'Done';
-      } else {
-        timeText = seconds2string(timeRemaining);
-      }
       return (
         <tr key={i}>
           <td className="event-text">{event.text}</td>
-          <td className="event-time">{timeText}</td>
+          <td className="event-time">{seconds2string(timeRemaining)}</td>
         </tr>
       );
     });
@@ -170,8 +165,8 @@ class App extends Component {
 
           <div>
             <h3>Next up</h3>
-            <p>warning you before by {this.state.earlyWarnSeconds} seconds</p>
             <h1>{nextUpEvent.text} in {seconds2string(nextUpEvent.timeRemaining)}</h1>
+            {this.state.earlyWarnSeconds !== 0 && <p>Alarm will trigger in {seconds2string(nextUpEvent.timeRemaining - this.state.earlyWarnSeconds)}</p>}
             {this.state.start ? <a onClick={this.clearCountdown}>Reset</a> : <a onClick={this.startCountdown}>Start</a>}
           </div>
         </div>
