@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class ItemEditor extends Component {
+export default class EventEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,20 +12,20 @@ export default class ItemEditor extends Component {
   render() {
     if (this.state.collapsed) {
       return (
-        <div className="item-editor">
+        <div className="event-editor">
           <a onClick={() => {
-            const text = this.props.list.reduce((txt, item) => {
-              let min = Math.floor(item.time / 60);
-              let sec = item.time - (min * 60);
-              return txt += '\n' + min + ':' + sec + ',' + item.text
-            }, '// min:sec,description');
+            const text = this.props.list.reduce((txt, event) => {
+              let min = Math.floor(event.time / 60);
+              let sec = event.time - (min * 60);
+              return txt += '\n' + min + ':' + sec + ',' + event.text
+            }, '// min:sec,description\nearly warning seconds=' + this.props.earlyWarning);
             this.setState({collapsed: false, list: text});
           }}>Edit Item List</a>
         </div>
       );
     } else {
       return (
-        <div className="item-editor">
+        <div className="event-editor">
           <textarea
             rows="20"
             value={this.state.list}

@@ -2,7 +2,7 @@
   /*text-align: center;*/
 }
 
-.item-list {
+.event-list {
   height: 100%;
   width: 400px;
   position: fixed;
@@ -16,47 +16,47 @@
   /*padding-top: 32px;*/
 }
 
-.item-list.items-showing {
+.event-list.events-showing {
   left: 0;
 }
 
-.item-list div {
+.event-list div {
   padding: 16px;
 }
 
-.item-list table {
+.event-list table {
   width: 100%;
   padding: 0;
   margin: 0;
 }
 
-.item-list li, .item-list a {
+.event-list li, .event-list a {
   /*font-size: large;*/
   color: #818181;
   display: block;
   transition: 0.3s
 }
 
-.item-list span {
+.event-list span {
   display: inline-block;
 }
 
-.item-text {
+.event-text {
   float: left;
   width: 80%;
 }
 
-.item-time {
+.event-time {
   float: right;
 }
 
-.item-editor {
+.event-editor {
   position: absolute;
   bottom: 0;
   width: 100%;
 }
 
-.item-editor textarea {
+.event-editor textarea {
   resize: none;
   width: 90%;
 }
@@ -72,6 +72,6 @@ a:hover {
   text-align: center;
 }
 
-.up-next.items-showing {
+.up-next.events-showing {
   margin-left: 400px;
 }
