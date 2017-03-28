@@ -1,77 +1,80 @@
 .App {
-  /*text-align: center;*/
+  font-size: large;
 }
-
-.event-list {
-  height: 100%;
-  width: 400px;
+#sidebar {
   position: fixed;
-  z-index: 1;
   top: 0;
-  left: -400px;
-  background-color: #111;
+  bottom: 0;
+  left: -100%;
+  width: 100%;
+  transition: left 0.5s;
+  z-index: 1;
   overflow-x: hidden;
-  transition: 0.5s;
+  background-color: #111;
   color: #818181;
-  /*padding-top: 32px;*/
 }
-
-.event-list.events-showing {
+#sidebar.menu-open {
   left: 0;
 }
-
-.event-list div {
+#main {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: left 0.5s;
+  padding: 16px;
+  text-align: center;
+  background-color: #555;
+}
+@media all and (min-width: 400px) {
+  #sidebar {
+      width: 400px;
+      left: -400px;
+  }
+}
+@media all and (min-width: 700px) {
+  #main.menu-open {
+      left: 400px;
+  }
+}
+#sidebar div, #sidebar table {
   padding: 16px;
 }
-
-.event-list table {
+#sidebar table {
   width: 100%;
-  padding: 0;
-  margin: 0;
 }
-
-.event-list li, .event-list a {
-  /*font-size: large;*/
+#sidebar li, #sidebar a {
   color: #818181;
   display: block;
   transition: 0.3s
 }
-
-.event-list span {
+#sidebar span {
   display: inline-block;
 }
-
-.event-text {
+#sidebar td {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 10px;
+}
+#sidebar td:first-child {
   float: left;
   width: 80%;
 }
-
-.event-time {
+#sidebar td:last-child {
   float: right;
 }
-
-.event-editor {
+#eventlist {
+}
+#bulk-editor {
   position: absolute;
   bottom: 0;
   width: 100%;
 }
-
-.event-editor textarea {
+#bulk-editor textarea {
   resize: none;
-  width: 90%;
+  width: 100%;
 }
-
 a:hover {
   color: #f1f1f1;
-}
-
-.up-next {
-  margin-left: 0;
-  transition: margin-left .5s;
-  padding: 16px;
-  text-align: center;
-}
-
-.up-next.events-showing {
-  margin-left: 400px;
 }

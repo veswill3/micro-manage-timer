@@ -22,6 +22,7 @@ class App extends Component {
       secondsElapsed: 0,
       earlyWarnSeconds: 0,
       eventCompleteCnt: 0,
+      alertColor: null,
       events: [
         {time: 5,  text: 'Add Cascade'},
         {time: 10, text: 'Add Citra'},
@@ -102,13 +103,9 @@ class App extends Component {
     // flash the background color
     let x = 0;
     this.alertIntervalID = setInterval(() => {
-      if (document.body.style.backgroundColor === 'red') {
-        document.body.style.backgroundColor = 'white';
-      } else {
-        document.body.style.backgroundColor = 'red';
-      }
+      this.setState({alertColor: this.state.alertColor === 'red' ? 'white' : 'red'});
       if (++x === 15) {
-        document.body.style.backgroundColor = null; // reset it
+        this.setState({alertColor: null});
         clearInterval(this.alertIntervalID);
         this.alertIntervalID = null;
       }
@@ -120,8 +117,8 @@ class App extends Component {
       let timeRemaining = event.time - this.state.secondsElapsed;
       return (
         <tr key={i}>
-          <td className="event-text">{event.text}</td>
-          <td className="event-time">{seconds2string(timeRemaining)}</td>
+          <td>{event.text}</td>
+          <td>{seconds2string(timeRemaining)}</td>
         </tr>
       );
     });
@@ -135,29 +132,38 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div className={this.state.showEventList ? 'event-list events-showing' : 'event-list'}>
+        <div id="sidebar"
+             className={(this.state.showEventList ? 'menu-open' : '')}
+             style={this.state.alertColor ? {backgroundColor: this.state.alertColor} : {}}
+        >
           <div>
             <a onClick={() => this.setState({showEventList: false})}>Hide event list</a>
           </div>
 
-          <div>
-            <table>
-              <tbody>
-                {eventList}
-              </tbody>
-            </table>
-          </div>
+          <table id="eventlist">
+            <tbody>
+              {eventList}
+            </tbody>
+          </table>
 
-          <EventEditor list={this.state.events} earlyWarning={this.state.earlyWarnSeconds} update={this.editEventList} />
+          <EventEditor
+            list={this.state.events}
+            earlyWarning={this.state.earlyWarnSeconds}
+            update={this.editEventList}
+          />
         </div>
 
-        <div className={this.state.showEventList ? 'up-next events-showing' : 'up-next'}>
+        <div id="main"
+             className={(this.state.showEventList ? 'menu-open' : '')}
+             style={this.state.alertColor ? {backgroundColor: this.state.alertColor} : {}}>
           <div style={{display: 'block'}}>
             <div style={{float: 'left'}}>
               {!this.state.showEventList && <a onClick={() => this.setState({showEventList: true})}>Show event list</a>}
             </div>
             <div style={{float: 'right'}}>
-              <div>Elapsed time: {this.state.secondsElapsed === 0 ? '00:00' : seconds2string(this.state.secondsElapsed)}</div>
+              <div>
+                Elapsed time: {this.state.secondsElapsed === 0 ? '00:00' : seconds2string(this.state.secondsElapsed)}
+              </div>
               <a onClick={this.alert}>Test alert</a>
             </div>
             <div style={{clear: 'both'}}></div>

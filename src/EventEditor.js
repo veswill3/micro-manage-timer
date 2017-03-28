@@ -12,7 +12,7 @@ export default class EventEditor extends Component {
   render() {
     if (this.state.collapsed) {
       return (
-        <div className="event-editor">
+        <div id="bulk-editor">
           <a onClick={() => {
             const text = this.props.list.reduce((txt, event) => {
               let min = Math.floor(event.time / 60);
@@ -25,7 +25,7 @@ export default class EventEditor extends Component {
       );
     } else {
       return (
-        <div className="event-editor">
+        <div id="bulk-editor">
           <textarea
             rows="20"
             value={this.state.list}
