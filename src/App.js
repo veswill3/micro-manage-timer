@@ -80,13 +80,13 @@ class App extends Component {
     let newState = {secondsElapsed: elapsed};
     // do we need to sound the alarm?
     let i = this.state.eventCompleteCnt;
-    if (i <= this.state.events.length && this.state.events[i].time - elapsed <= 0) {
+    if (i < this.state.events.length && this.state.events[i].time - elapsed <= 0) {
       this.alert();
       newState.eventCompleteCnt = ++i;
     }
     // do we need an early warning?
     let j = this.state.earlyWarnCompleteCnt;
-    if (j <= this.state.events.length && this.state.events[j].time - elapsed <= this.state.earlyWarnSeconds) {
+    if (j < this.state.events.length && this.state.events[j].time - elapsed <= this.state.earlyWarnSeconds) {
       this.alert(true);
       newState.earlyWarnCompleteCnt = ++j;
     }
@@ -147,8 +147,6 @@ class App extends Component {
     let nextUpEvent = this.state.events.find((event) => (event.time - this.state.secondsElapsed) > 0);
     if (nextUpEvent) {
       nextUpEvent.timeRemaining = nextUpEvent.time - this.state.secondsElapsed;
-    } else {
-      nextUpEvent = {text: 'Nothing!', timeRemaining: 0};
     }
 
     return (
@@ -192,7 +190,11 @@ class App extends Component {
 
           <div>
             <h3>Next up</h3>
-            <h1>{nextUpEvent.text} in {seconds2string(nextUpEvent.timeRemaining)}</h1>
+            { nextUpEvent ?
+              <h1>{nextUpEvent.text} in {seconds2string(nextUpEvent.timeRemaining)}</h1>
+              :
+              <h1>All done</h1>
+            }
             {this.state.start ? <a onClick={this.clearCountdown}>Reset</a> : <a onClick={this.startCountdown}>Start</a>}
           </div>
         </div>
