@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import alarmBeep from './alarm-beep.mp3';
+import earlyWarning from './early-warning.mp3';
 import EventEditor from './EventEditor';
 
 function seconds2string(seconds) {
@@ -20,14 +21,15 @@ class App extends Component {
       showEventList: true,
       start: null,
       secondsElapsed: 0,
-      earlyWarnSeconds: 0,
+      earlyWarnSeconds: 5,
+      earlyWarnCompleteCnt: 0,
       eventCompleteCnt: 0,
       alertColor: null,
       events: [
-        {time: 5,  text: 'Add Cascade'},
-        {time: 10, text: 'Add Citra'},
-        {time: 15, text: 'Add Fuggle'},
-        {time: 20, text: 'Drink a beer'},
+        {time: 10,   text: 'Add Cascade'},
+        {time: 20,   text: 'Add Citra'},
+        {time: 35,   text: 'Add Fuggle'},
+        {time: 50,   text: 'Drink a beer'},
         {time: 3540, text: 'Add Chinook'},
         {time: 3630, text: 'Drink another beer'},
       ],
@@ -38,6 +40,7 @@ class App extends Component {
     this.clearCountdown = this.clearCountdown.bind(this);
     this.alert = this.alert.bind(this);
     this.beepSound = new Audio(alarmBeep);
+    this.earlyWarningSound = new Audio(earlyWarning);
   }
 
   editEventList(editedListText) {
@@ -77,10 +80,15 @@ class App extends Component {
     let newState = {secondsElapsed: elapsed};
     // do we need to sound the alarm?
     let i = this.state.eventCompleteCnt;
-    if (i <= this.state.events.length && this.state.events[i].time - elapsed <= this.state.earlyWarnSeconds) {
+    if (i <= this.state.events.length && this.state.events[i].time - elapsed <= 0) {
       this.alert();
-      newState.eventCompleteCnt = i + 1;
-      console.log('finished events: ' + newState.eventCompleteCnt);
+      newState.eventCompleteCnt = ++i;
+    }
+    // do we need an early warning?
+    let j = this.state.earlyWarnCompleteCnt;
+    if (j <= this.state.events.length && this.state.events[j].time - elapsed <= this.state.earlyWarnSeconds) {
+      this.alert(true);
+      newState.earlyWarnCompleteCnt = ++j;
     }
     this.setState(newState);
   }
@@ -91,32 +99,45 @@ class App extends Component {
       start: null,
       now: null,
       secondsElapsed: 0,
+      earlyWarnCompleteCnt: 0,
       eventCompleteCnt: 0,
     });
   }
 
-  alert() {
+  alert(early) {
     if (this.alertIntervalID) {
       return;
     }
-    this.beepSound.play();
+    let x, audio;
+    if (early) {
+      audio = this.earlyWarningSound;
+      x = 3;
+    } else {
+      audio = this.beepSound;
+      x = 15;
+    }
+    audio.play();
     // flash the background color
-    let x = 0;
-    this.alertIntervalID = setInterval(() => {
+    let handle = setInterval(() => {
       this.setState({alertColor: this.state.alertColor === 'red' ? 'white' : 'red'});
-      if (++x === 15) {
+      if (--x === 0) {
         this.setState({alertColor: null});
-        clearInterval(this.alertIntervalID);
-        this.alertIntervalID = null;
+        clearInterval(handle);
+        if (!early) {
+          this.alertIntervalID = null;
+        }
       }
     }, 120);
+    if (!early) {
+      this.alertIntervalID = handle
+    }
   }
 
   render() {
     const eventList = this.state.events.map((event, i) => {
       let timeRemaining = event.time - this.state.secondsElapsed;
       return (
-        <tr key={i}>
+        <tr key={i} style={(timeRemaining > 0 && timeRemaining <= this.state.earlyWarnSeconds ? {color: 'yellow'} : {})}>
           <td>{event.text}</td>
           <td>{seconds2string(timeRemaining)}</td>
         </tr>
@@ -164,7 +185,7 @@ class App extends Component {
               <div>
                 Elapsed time: {this.state.secondsElapsed === 0 ? '00:00' : seconds2string(this.state.secondsElapsed)}
               </div>
-              <a onClick={this.alert}>Test alert</a>
+              <a onClick={() => this.alert(false)}>Test alert</a>
             </div>
             <div style={{clear: 'both'}}></div>
           </div>
@@ -172,7 +193,6 @@ class App extends Component {
           <div>
             <h3>Next up</h3>
             <h1>{nextUpEvent.text} in {seconds2string(nextUpEvent.timeRemaining)}</h1>
-            {this.state.earlyWarnSeconds !== 0 && <p>Alarm will trigger in {seconds2string(nextUpEvent.timeRemaining - this.state.earlyWarnSeconds)}</p>}
             {this.state.start ? <a onClick={this.clearCountdown}>Reset</a> : <a onClick={this.startCountdown}>Start</a>}
           </div>
         </div>
