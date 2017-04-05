@@ -191,12 +191,17 @@ class App extends Component {
           <div>
             <h3>Next up</h3>
             { nextUpEvent ?
-              <h1>{nextUpEvent.text} in {seconds2string(nextUpEvent.timeRemaining)}</h1>
+              <h1 style={(nextUpEvent.timeRemaining > 0 && nextUpEvent.timeRemaining <= this.state.earlyWarnSeconds ? {color: 'yellow'} : {})}>
+                {nextUpEvent.text} in {seconds2string(nextUpEvent.timeRemaining)}
+              </h1>
               :
               <h1>All done</h1>
             }
             {this.state.start ? <a onClick={this.clearCountdown}>Reset</a> : <a onClick={this.startCountdown}>Start</a>}
           </div>
+        </div>
+        <div id="feature-request">
+          <a href="https://github.com/veswill3/micro-manage-timer/issues/new">Request a feature</a>
         </div>
       </div>
     );
