@@ -70,6 +70,12 @@
   z-index: 1;
   padding: 16px;
 }
+#feature-request a {
+  color: #000000;
+}
+#feature-request a:hover {
+  color: #f1f1f1;
+}
 #bulk-editor {
   position: absolute;
   bottom: 0;
