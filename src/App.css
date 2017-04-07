@@ -46,7 +46,7 @@
   flex-basis: auto;
   overflow-y: auto;
 }
-#sidebar div, #sidebar table {
+#sidebar div {
   padding: 16px;
 }
 #sidebar table {
@@ -78,10 +78,10 @@
   z-index: 1;
   padding: 16px;
 }
-#feature-request a {
+#main a {
   color: #000000;
 }
-#feature-request a:hover {
+#main a:hover {
   color: #f1f1f1;
 }
 #bulk-editor {
