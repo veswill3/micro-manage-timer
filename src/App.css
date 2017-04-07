@@ -12,6 +12,8 @@
   overflow-x: hidden;
   background-color: #111;
   color: #818181;
+  display: flex;
+  flex-flow: column;
 }
 #sidebar.menu-open {
   left: 0;
@@ -37,6 +39,12 @@
   #main.menu-open {
       left: 400px;
   }
+}
+#event-list {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: auto;
+  overflow-y: auto;
 }
 #sidebar div, #sidebar table {
   padding: 16px;
@@ -70,10 +78,16 @@
   z-index: 1;
   padding: 16px;
 }
+#feature-request a {
+  color: #000000;
+}
+#feature-request a:hover {
+  color: #f1f1f1;
+}
 #bulk-editor {
-  position: absolute;
-  bottom: 0;
   width: 100%;
+  flex-grow: 0;
+  flex-shrink: 1;
 }
 #bulk-editor textarea {
   resize: none;
