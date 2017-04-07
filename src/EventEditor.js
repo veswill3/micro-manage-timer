@@ -27,7 +27,7 @@ export default class EventEditor extends Component {
       return (
         <div id="bulk-editor">
           <textarea
-            rows="20"
+            rows="10"
             value={this.state.list}
             onChange={(event) => this.setState({list: event.target.value})}>
           </textarea>
