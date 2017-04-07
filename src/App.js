@@ -159,11 +159,13 @@ class App extends Component {
             <a onClick={() => this.setState({showEventList: false})}>Hide event list</a>
           </div>
 
-          <table id="eventlist">
-            <tbody>
-              {eventList}
-            </tbody>
-          </table>
+          <div id="event-list">
+            <table>
+              <tbody>
+                {eventList}
+              </tbody>
+            </table>
+          </div>
 
           <EventEditor
             list={this.state.events}
