@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-function mobileBeingUsed() {
+function smallBrowserWindow() {
    if(window.innerWidth <= 800 && window.innerHeight <= 600) {
      return true;
    } else {
@@ -35,7 +35,7 @@ export default class EventEditor extends Component {
       return (
         <div id="bulk-editor">
           <textarea
-            rows={mobileBeingUsed() ? "10" : "20"}
+            rows={smallBrowserWindow() ? "10" : "20"}
             value={this.state.list}
             onChange={(event) => this.setState({list: event.target.value})}>
           </textarea>
